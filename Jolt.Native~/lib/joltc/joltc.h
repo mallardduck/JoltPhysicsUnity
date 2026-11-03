@@ -1651,6 +1651,12 @@ JPH_CAPI JPH_BodyID JPH_BodyInterface_CreateAndAddSoftBody(JPH_BodyInterface* in
 JPH_CAPI void JPH_BodyInterface_AddBody(JPH_BodyInterface* interface, JPH_BodyID bodyID, JPH_Activation activationMode);
 JPH_CAPI void JPH_BodyInterface_RemoveBody(JPH_BodyInterface* interface, JPH_BodyID bodyID);
 JPH_CAPI void JPH_BodyInterface_RemoveAndDestroyBody(JPH_BodyInterface* interface, JPH_BodyID bodyID);
+
+/* Batch add/remove. AddBodiesPrepare may shuffle the bodies array; pass the same (unmodified) array to Finalize/Abort. */
+JPH_CAPI void* JPH_BodyInterface_AddBodiesPrepare(JPH_BodyInterface* interface, JPH_BodyID* bodies, int count);
+JPH_CAPI void JPH_BodyInterface_AddBodiesFinalize(JPH_BodyInterface* interface, JPH_BodyID* bodies, int count, void* addState, JPH_Activation activationMode);
+JPH_CAPI void JPH_BodyInterface_AddBodiesAbort(JPH_BodyInterface* interface, JPH_BodyID* bodies, int count, void* addState);
+JPH_CAPI void JPH_BodyInterface_RemoveBodies(JPH_BodyInterface* interface, JPH_BodyID* bodies, int count);
 JPH_CAPI bool JPH_BodyInterface_IsActive(JPH_BodyInterface* interface, JPH_BodyID bodyID);
 JPH_CAPI bool JPH_BodyInterface_IsAdded(JPH_BodyInterface* interface, JPH_BodyID bodyID);
 JPH_CAPI JPH_BodyType JPH_BodyInterface_GetBodyType(JPH_BodyInterface* interface, JPH_BodyID bodyID);
@@ -1685,6 +1691,8 @@ JPH_CAPI void JPH_BodyInterface_NotifyShapeChanged(JPH_BodyInterface* interface,
 
 JPH_CAPI void JPH_BodyInterface_ActivateBody(JPH_BodyInterface* interface, JPH_BodyID bodyId);
 JPH_CAPI void JPH_BodyInterface_DeactivateBody(JPH_BodyInterface* interface, JPH_BodyID bodyId);
+JPH_CAPI void JPH_BodyInterface_ActivateBodies(JPH_BodyInterface* interface, const JPH_BodyID* bodies, int count);
+JPH_CAPI void JPH_BodyInterface_DeactivateBodies(JPH_BodyInterface* interface, const JPH_BodyID* bodies, int count);
 
 JPH_CAPI JPH_ObjectLayer JPH_BodyInterface_GetObjectLayer(JPH_BodyInterface* interface, JPH_BodyID bodyId);
 JPH_CAPI void JPH_BodyInterface_SetObjectLayer(JPH_BodyInterface* interface, JPH_BodyID bodyId, JPH_ObjectLayer layer);

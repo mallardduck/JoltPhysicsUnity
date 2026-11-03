@@ -114,6 +114,70 @@ namespace Jolt
             UnsafeBindings.JPH_BodyInterface_RemoveBody(@interface, bodyID);
         }
 
+        /// <summary>
+        /// Prepare adding many bodies at once. Does not affect the simulation and may be called from a background
+        /// thread. The span may be reordered; pass the same span, unmodified, to Finalize or Abort.
+        /// </summary>
+        public static nint JPH_BodyInterface_AddBodiesPrepare(NativeHandle<JPH_BodyInterface> @interface, Span<BodyID> bodies)
+        {
+            AssertInitialized();
+
+            fixed (BodyID* bodiesPtr = bodies)
+            {
+                return UnsafeBindings.JPH_BodyInterface_AddBodiesPrepare(@interface, bodiesPtr, bodies.Length);
+            }
+        }
+
+        public static void JPH_BodyInterface_AddBodiesFinalize(NativeHandle<JPH_BodyInterface> @interface, Span<BodyID> bodies, nint addState, Activation activation)
+        {
+            AssertInitialized();
+
+            fixed (BodyID* bodiesPtr = bodies)
+            {
+                UnsafeBindings.JPH_BodyInterface_AddBodiesFinalize(@interface, bodiesPtr, bodies.Length, addState, activation);
+            }
+        }
+
+        public static void JPH_BodyInterface_AddBodiesAbort(NativeHandle<JPH_BodyInterface> @interface, Span<BodyID> bodies, nint addState)
+        {
+            AssertInitialized();
+
+            fixed (BodyID* bodiesPtr = bodies)
+            {
+                UnsafeBindings.JPH_BodyInterface_AddBodiesAbort(@interface, bodiesPtr, bodies.Length, addState);
+            }
+        }
+
+        public static void JPH_BodyInterface_RemoveBodies(NativeHandle<JPH_BodyInterface> @interface, Span<BodyID> bodies)
+        {
+            AssertInitialized();
+
+            fixed (BodyID* bodiesPtr = bodies)
+            {
+                UnsafeBindings.JPH_BodyInterface_RemoveBodies(@interface, bodiesPtr, bodies.Length);
+            }
+        }
+
+        public static void JPH_BodyInterface_ActivateBodies(NativeHandle<JPH_BodyInterface> @interface, ReadOnlySpan<BodyID> bodies)
+        {
+            AssertInitialized();
+
+            fixed (BodyID* bodiesPtr = bodies)
+            {
+                UnsafeBindings.JPH_BodyInterface_ActivateBodies(@interface, bodiesPtr, bodies.Length);
+            }
+        }
+
+        public static void JPH_BodyInterface_DeactivateBodies(NativeHandle<JPH_BodyInterface> @interface, ReadOnlySpan<BodyID> bodies)
+        {
+            AssertInitialized();
+
+            fixed (BodyID* bodiesPtr = bodies)
+            {
+                UnsafeBindings.JPH_BodyInterface_DeactivateBodies(@interface, bodiesPtr, bodies.Length);
+            }
+        }
+
         public static void JPH_BodyInterface_RemoveAndDestroyBody(NativeHandle<JPH_BodyInterface> @interface, BodyID bodyID)
         {
             AssertInitialized();

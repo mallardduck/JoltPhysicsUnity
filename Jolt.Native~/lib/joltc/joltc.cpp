@@ -5075,6 +5075,29 @@ void JPH_BodyInterface_RemoveAndDestroyBody(JPH_BodyInterface* interface, JPH_Bo
 	AsBodyInterface(interface)->DestroyBody(joltBodyID);
 }
 
+// JPH::BodyID is a thin wrapper around a single uint32, so JPH_BodyID arrays can be reinterpreted in place.
+static_assert(sizeof(JPH::BodyID) == sizeof(JPH_BodyID), "JPH::BodyID must be layout-compatible with JPH_BodyID");
+
+void* JPH_BodyInterface_AddBodiesPrepare(JPH_BodyInterface* interface, JPH_BodyID* bodies, int count)
+{
+	return AsBodyInterface(interface)->AddBodiesPrepare(reinterpret_cast<JPH::BodyID*>(bodies), count);
+}
+
+void JPH_BodyInterface_AddBodiesFinalize(JPH_BodyInterface* interface, JPH_BodyID* bodies, int count, void* addState, JPH_Activation activationMode)
+{
+	AsBodyInterface(interface)->AddBodiesFinalize(reinterpret_cast<JPH::BodyID*>(bodies), count, addState, static_cast<JPH::EActivation>(activationMode));
+}
+
+void JPH_BodyInterface_AddBodiesAbort(JPH_BodyInterface* interface, JPH_BodyID* bodies, int count, void* addState)
+{
+	AsBodyInterface(interface)->AddBodiesAbort(reinterpret_cast<JPH::BodyID*>(bodies), count, addState);
+}
+
+void JPH_BodyInterface_RemoveBodies(JPH_BodyInterface* interface, JPH_BodyID* bodies, int count)
+{
+	AsBodyInterface(interface)->RemoveBodies(reinterpret_cast<JPH::BodyID*>(bodies), count);
+}
+
 bool JPH_BodyInterface_IsActive(JPH_BodyInterface* interface, JPH_BodyID bodyID)
 {
 	return AsBodyInterface(interface)->IsActive(JPH::BodyID(bodyID));
@@ -5209,6 +5232,16 @@ void JPH_BodyInterface_ActivateBody(JPH_BodyInterface* interface, JPH_BodyID bod
 void JPH_BodyInterface_DeactivateBody(JPH_BodyInterface* interface, JPH_BodyID bodyId)
 {
 	AsBodyInterface(interface)->DeactivateBody(JPH::BodyID(bodyId));
+}
+
+void JPH_BodyInterface_ActivateBodies(JPH_BodyInterface* interface, const JPH_BodyID* bodies, int count)
+{
+	AsBodyInterface(interface)->ActivateBodies(reinterpret_cast<const JPH::BodyID*>(bodies), count);
+}
+
+void JPH_BodyInterface_DeactivateBodies(JPH_BodyInterface* interface, const JPH_BodyID* bodies, int count)
+{
+	AsBodyInterface(interface)->DeactivateBodies(reinterpret_cast<const JPH::BodyID*>(bodies), count);
 }
 
 JPH_ObjectLayer JPH_BodyInterface_GetObjectLayer(JPH_BodyInterface* interface, JPH_BodyID bodyId)
