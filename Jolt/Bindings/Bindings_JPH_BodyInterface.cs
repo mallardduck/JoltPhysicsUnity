@@ -269,6 +269,42 @@ namespace Jolt
             }
         }
 
+        /// <summary>
+        /// Read the position and rotation of many bodies in a single native call. The output spans must be at least as long as <paramref name="bodies"/>.
+        /// </summary>
+        public static void JPH_BodyInterface_GetPositionsAndRotations(NativeHandle<JPH_BodyInterface> @interface, ReadOnlySpan<BodyID> bodies, Span<rvec3> positions, Span<quaternion> rotations)
+        {
+            AssertInitialized();
+
+            if (positions.Length < bodies.Length) throw new ArgumentException("positions is shorter than bodies", nameof(positions));
+            if (rotations.Length < bodies.Length) throw new ArgumentException("rotations is shorter than bodies", nameof(rotations));
+
+            fixed (BodyID* bodiesPtr = bodies)
+            fixed (rvec3* positionsPtr = positions)
+            fixed (quaternion* rotationsPtr = rotations)
+            {
+                UnsafeBindings.JPH_BodyInterface_GetPositionsAndRotations(@interface, bodiesPtr, bodies.Length, positionsPtr, rotationsPtr);
+            }
+        }
+
+        /// <summary>
+        /// Set the position and rotation of many bodies in a single native call. The input spans must be at least as long as <paramref name="bodies"/>.
+        /// </summary>
+        public static void JPH_BodyInterface_SetPositionsAndRotations(NativeHandle<JPH_BodyInterface> @interface, ReadOnlySpan<BodyID> bodies, ReadOnlySpan<rvec3> positions, ReadOnlySpan<quaternion> rotations, Activation activation)
+        {
+            AssertInitialized();
+
+            if (positions.Length < bodies.Length) throw new ArgumentException("positions is shorter than bodies", nameof(positions));
+            if (rotations.Length < bodies.Length) throw new ArgumentException("rotations is shorter than bodies", nameof(rotations));
+
+            fixed (BodyID* bodiesPtr = bodies)
+            fixed (rvec3* positionsPtr = positions)
+            fixed (quaternion* rotationsPtr = rotations)
+            {
+                UnsafeBindings.JPH_BodyInterface_SetPositionsAndRotations(@interface, bodiesPtr, bodies.Length, positionsPtr, rotationsPtr, activation);
+            }
+        }
+
         public static void JPH_BodyInterface_SetPositionRotationAndVelocity(NativeHandle<JPH_BodyInterface> @interface, BodyID bodyID, rvec3 position, quaternion rotation, float3 linearVelocity, float3 angularVelocity)
         {
             AssertInitialized();

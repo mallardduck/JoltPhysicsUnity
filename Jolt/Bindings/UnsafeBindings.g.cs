@@ -3153,6 +3153,12 @@ namespace Jolt
         public static extern void JPH_BodyInterface_GetPositionAndRotation(JPH_BodyInterface* @interface, [NativeTypeName("JPH_BodyID")] BodyID bodyId, [NativeTypeName("JPH_RVec3 *")] rvec3* position, [NativeTypeName("JPH_Quat *")] quaternion* rotation);
 
         [DllImport("joltc", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void JPH_BodyInterface_GetPositionsAndRotations(JPH_BodyInterface* @interface, [NativeTypeName("const JPH_BodyID *")] BodyID* bodies, int count, [NativeTypeName("JPH_RVec3 *")] rvec3* positions, [NativeTypeName("JPH_Quat *")] quaternion* rotations);
+
+        [DllImport("joltc", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void JPH_BodyInterface_SetPositionsAndRotations(JPH_BodyInterface* @interface, [NativeTypeName("const JPH_BodyID *")] BodyID* bodies, int count, [NativeTypeName("const JPH_RVec3 *")] rvec3* positions, [NativeTypeName("const JPH_Quat *")] quaternion* rotations, [NativeTypeName("JPH_Activation")] Activation activationMode);
+
+        [DllImport("joltc", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void JPH_BodyInterface_SetPositionRotationAndVelocity(JPH_BodyInterface* @interface, [NativeTypeName("JPH_BodyID")] BodyID bodyId, [NativeTypeName("JPH_RVec3 *")] rvec3* position, [NativeTypeName("JPH_Quat *")] quaternion* rotation, [NativeTypeName("JPH_Vec3 *")] float3* linearVelocity, [NativeTypeName("JPH_Vec3 *")] float3* angularVelocity);
 
         [DllImport("joltc", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

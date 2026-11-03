@@ -1679,6 +1679,10 @@ JPH_CAPI void JPH_BodyInterface_SetPositionAndRotationWhenChanged(JPH_BodyInterf
 JPH_CAPI void JPH_BodyInterface_GetPositionAndRotation(JPH_BodyInterface* interface, JPH_BodyID bodyId, JPH_RVec3* position, JPH_Quat* rotation);
 JPH_CAPI void JPH_BodyInterface_SetPositionRotationAndVelocity(JPH_BodyInterface* interface, JPH_BodyID bodyId, JPH_RVec3* position, JPH_Quat* rotation, JPH_Vec3* linearVelocity, JPH_Vec3* angularVelocity);
 
+/* Bulk transform access. Arrays are caller-allocated with 'count' elements; positions[i]/rotations[i] correspond to bodies[i]. */
+JPH_CAPI void JPH_BodyInterface_GetPositionsAndRotations(JPH_BodyInterface* interface, const JPH_BodyID* bodies, int count, JPH_RVec3* positions, JPH_Quat* rotations);
+JPH_CAPI void JPH_BodyInterface_SetPositionsAndRotations(JPH_BodyInterface* interface, const JPH_BodyID* bodies, int count, const JPH_RVec3* positions, const JPH_Quat* rotations, JPH_Activation activationMode);
+
 JPH_CAPI const JPH_Shape* JPH_BodyInterface_GetShape(JPH_BodyInterface* interface, JPH_BodyID bodyId);
 JPH_CAPI void JPH_BodyInterface_SetShape(JPH_BodyInterface* interface, JPH_BodyID bodyId, const JPH_Shape* shape, bool updateMassProperties, JPH_Activation activationMode);
 JPH_CAPI void JPH_BodyInterface_NotifyShapeChanged(JPH_BodyInterface* interface, JPH_BodyID bodyId, JPH_Vec3* previousCenterOfMass, bool updateMassProperties, JPH_Activation activationMode);

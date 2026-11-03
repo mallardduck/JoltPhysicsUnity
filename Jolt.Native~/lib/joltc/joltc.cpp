@@ -5180,6 +5180,28 @@ void JPH_BodyInterface_GetPositionAndRotation(JPH_BodyInterface* interface, JPH_
 	FromJolt(joltRotation, rotation);
 }
 
+void JPH_BodyInterface_GetPositionsAndRotations(JPH_BodyInterface* interface, const JPH_BodyID* bodies, int count, JPH_RVec3* positions, JPH_Quat* rotations)
+{
+	JPH::BodyInterface* bodyInterface = AsBodyInterface(interface);
+	for (int i = 0; i < count; ++i)
+	{
+		JPH::RVec3 joltPosition;
+		JPH::Quat joltRotation;
+		bodyInterface->GetPositionAndRotation(JPH::BodyID(bodies[i]), joltPosition, joltRotation);
+		FromJolt(joltPosition, &positions[i]);
+		FromJolt(joltRotation, &rotations[i]);
+	}
+}
+
+void JPH_BodyInterface_SetPositionsAndRotations(JPH_BodyInterface* interface, const JPH_BodyID* bodies, int count, const JPH_RVec3* positions, const JPH_Quat* rotations, JPH_Activation activationMode)
+{
+	JPH::BodyInterface* bodyInterface = AsBodyInterface(interface);
+	for (int i = 0; i < count; ++i)
+	{
+		bodyInterface->SetPositionAndRotation(JPH::BodyID(bodies[i]), ToJolt(&positions[i]), ToJolt(&rotations[i]), static_cast<JPH::EActivation>(activationMode));
+	}
+}
+
 void JPH_BodyInterface_SetPositionRotationAndVelocity(JPH_BodyInterface* interface, JPH_BodyID bodyId, JPH_RVec3* position, JPH_Quat* rotation, JPH_Vec3* linearVelocity, JPH_Vec3* angularVelocity)
 {
 	AsBodyInterface(interface)->SetPositionRotationAndVelocity(JPH::BodyID(bodyId), ToJolt(position), ToJolt(rotation), ToJolt(linearVelocity), ToJolt(angularVelocity));
